@@ -1,0 +1,47 @@
+.testimonials {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.testimonials > p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.joinNow {
+  background-color: #7c5cfc;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.testimonialList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.testimonial {
+  width: 300px;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.stars {
+  color: #ffd700;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.testimonial h3 {
+  margin-top: 1rem;
+}

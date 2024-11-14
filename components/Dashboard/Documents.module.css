@@ -1,0 +1,59 @@
+/* Documents.module.css */
+
+.documents {
+  padding: 20px;
+}
+
+.uploadArea {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.uploadBox {
+  flex: 1;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.uploadBox:hover {
+  border-color: #6c5ce7;
+}
+
+.uploadBox p {
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.uploadBox button {
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.uploadBox button:hover {
+  background-color: #5b4cc7;
+}
+
+.submitBtn {
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: #5b4cc7;
+}
