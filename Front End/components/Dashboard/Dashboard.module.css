@@ -1,0 +1,69 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainContent {
+  margin-left: 200px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.companyInfo {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.companyLogo {
+  width: 100px;
+  height: 100px;
+  background-color: #ddd;
+  margin-right: 20px;
+}
+
+.companyDetails {
+  flex: 1;
+}
+
+.companyMeta {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.companyMeta input {
+  flex: 1;
+  padding: 5px;
+}
+
+.tabs {
+  display: flex;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs a {
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+.tabs a.active {
+  background-color: #fff;
+  border-bottom: 2px solid #007bff;
+}
+
+.content {
+  padding: 20px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    margin-left: 60px;
+  }
+}
