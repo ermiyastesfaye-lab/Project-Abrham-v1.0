@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import "./SignUp.module.css";
+import { useNavigate } from "react-router-dom";
+import styles from "./SignUp.module.css";
 
-const SignUp = () => {
+const SignUp = ({ onSignUp }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
     role: "",
     phoneNumber: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +24,10 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    // Here you would typically send the data to your backend
+    // For now, we'll just call onSignUp and navigate to the dashboard
+    onSignUp();
+    navigate("/dashboard");
   };
 
   return (
@@ -33,7 +39,7 @@ const SignUp = () => {
           up today to unlock new opportunities.
         </p>
         <img
-          src="/path-to-your-image.png"
+          src="/placeholder.svg?height=300&width=400"
           alt="Illustration"
           className={styles.signupIllustration}
         />
@@ -44,18 +50,9 @@ const SignUp = () => {
           <div className={styles.formRow}>
             <input
               type="text"
-              name="firstName"
-              placeholder="First name"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              className={styles.input}
-            />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last name"
-              value={formData.lastName}
+              name="userName"
+              placeholder="Username"
+              value={formData.userName}
               onChange={handleChange}
               required
               className={styles.input}
@@ -113,7 +110,7 @@ const SignUp = () => {
         </form>
         <div className={styles.divider}>OR</div>
         <button className={styles.googleButton}>
-          <img src="/path-to-google-icon.png" alt="Google Icon" />
+          <img src="/placeholder.svg?height=20&width=20" alt="Google Icon" />
           Continue with Google
         </button>
       </div>

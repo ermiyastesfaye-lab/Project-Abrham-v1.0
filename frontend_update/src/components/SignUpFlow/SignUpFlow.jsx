@@ -13,16 +13,15 @@ function SignUpFlow() {
   const [currentStep, setCurrentStep] = useState(STEPS.INITIAL);
   const [formData, setFormData] = useState({
     initial: {
-      firstName: "",
-      lastName: "",
+      userName: "",
       email: "",
       role: "",
-      phoneNumber: "",
       password: "",
     },
     companyInfo: {
       companyName: "",
       description: "",
+      phoneNumber: "",
       country: "",
       city: "",
       websiteUrl: "",
@@ -51,6 +50,7 @@ function SignUpFlow() {
   const handleCompanyInfoSubmit = (e) => {
     e.preventDefault();
     setCurrentStep(STEPS.DOCUMENTS);
+    alert("Signed successfully!");
   };
 
   const handleDocumentsSubmit = (e) => {
@@ -84,24 +84,12 @@ function SignUpFlow() {
             <h2>Create your account</h2>
             <input
               type="text"
-              placeholder="First name"
+              placeholder="User name"
               value={formData.initial.firstName}
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  initial: { ...formData.initial, firstName: e.target.value },
-                })
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Last name"
-              value={formData.initial.lastName}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  initial: { ...formData.initial, lastName: e.target.value },
+                  initial: { ...formData.initial, userName: e.target.value },
                 })
               }
               required
@@ -118,6 +106,21 @@ function SignUpFlow() {
               }
               required
             />
+            <select
+              name="role"
+              value={formData.role}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  initial: { ...formData.initial, role: e.target.value },
+                })
+              }
+              required
+            >
+              <option value="">Role</option>
+              <option value="entrepreneur">Entrepreneur</option>
+              <option value="investor">Investor</option>
+            </select>
             <input
               type="password"
               placeholder="Password"
@@ -130,7 +133,7 @@ function SignUpFlow() {
               }
               required
             />
-            <button type="submit">Next</button>
+            <button type="submit">Signup</button>
           </form>
         );
 

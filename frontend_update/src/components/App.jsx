@@ -15,6 +15,7 @@ import Contact from "./components/Contacts/Contacts";
 import Listings from "./components/Listings/Listings";
 import Message from "./components/message/Message";
 import PaymentPage from "./components/PaymentPage/PaymentPage";
+import Profile from "./components/Profile/Profile";
 import "./index.css";
 
 function App() {
@@ -67,6 +68,25 @@ function App() {
             }
           />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route
+            path="/dashboard/profile"
+            element={
+              <div className="dashboard-layout">
+                <Sidebar />
+                <Profile />
+              </div>
+            }
+          />
+          // In App.jsx
+          <Route
+            path="/dashboard/*"
+            element={
+              <div className="dashboard-layout">
+                <Sidebar />
+                <Dashboard />
+              </div>
+            }
+          />
         </Routes>
       </main>
     </div>

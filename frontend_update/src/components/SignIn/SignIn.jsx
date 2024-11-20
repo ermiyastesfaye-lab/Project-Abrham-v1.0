@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./SignIn.module.css";
 
-const SignIn = () => {
+const SignIn = ({ onSignIn }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -19,6 +22,10 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    // Here you would typically validate the user's credentials
+    // For now, we'll just call onSignIn and navigate to the dashboard
+    onSignIn();
+    navigate("/dashboard");
   };
 
   return (
@@ -63,7 +70,7 @@ const SignIn = () => {
         </form>
         <div className={styles.divider}>OR</div>
         <button className={styles.googleButton}>
-          <img src="/path-to-google-icon.png" alt="Google Icon" />
+          <img src="/placeholder.svg?height=20&width=20" alt="Google Icon" />
           Continue with Google
         </button>
         <p className={styles.signupLink}>
@@ -72,7 +79,7 @@ const SignIn = () => {
       </div>
       <div className={styles.signinRight}>
         <img
-          src="/path-to-your-image.png"
+          src="/placeholder.svg?height=300&width=400"
           alt="Illustration"
           className={styles.signinIllustration}
         />
