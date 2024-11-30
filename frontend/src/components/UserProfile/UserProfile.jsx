@@ -5,10 +5,10 @@ import { editUser } from "../../api/user";
 import { useCookies } from "react-cookie";
 
 const UserProfile = () => {
-  // const [cookies] = useCookies(); // Access all cookies for debugging
-  // console.log("All Cookies:", cookies); // Check what cookies are available
-  // const userId = cookies.userId;
-  // console.log("User ID:", userId);
+  const [cookies] = useCookies();
+  console.log("All Cookies:", cookies);
+  const userId = cookies.userId;
+  console.log("User ID:", userId);
 
   const [userData, setUserData] = useState({
     userName: "",
@@ -41,10 +41,10 @@ const UserProfile = () => {
     e.preventDefault();
     const updatedUser = {};
     for (const key in userData) {
-      if (userData[key]) updatedUser[key] = userData[key]; // Include only non-empty fields
+      if (userData[key]) updatedUser[key] = userData[key];
     }
     try {
-      const res = await editUser(userId, updatedUser); // Pass userId and updatedUser
+      const res = await editUser(userId, updatedUser);
       console.log(res);
       alert("User details updated successfully!");
     } catch (err) {
@@ -64,7 +64,6 @@ const UserProfile = () => {
               name="userName"
               value={userData.userName}
               onChange={(e) => handleChange(e, "userName")}
-              disabled={!isEditing.userName}
               className={styles.input}
             />
             <button
@@ -85,7 +84,6 @@ const UserProfile = () => {
               name="email"
               value={userData.email}
               onChange={(e) => handleChange(e, "email")}
-              disabled={!isEditing.email}
               className={styles.input}
             />
             <button
@@ -106,7 +104,6 @@ const UserProfile = () => {
               name="password"
               value={userData.password}
               onChange={(e) => handleChange(e, "password")}
-              disabled={!isEditing.password}
               className={styles.input}
             />
             <button

@@ -48,6 +48,7 @@ const login = async (req, res) => {
       maxAge: maxAge * 1000,
     });
     res.cookie("userId", user._id, {
+      httpOnly: true,
       maxAge: maxAge * 1000,
       domain: "localhost",
       path: "/",

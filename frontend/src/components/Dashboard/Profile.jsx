@@ -136,7 +136,7 @@ const Profile = () => {
               <input
                 type="text"
                 name="country"
-                placeholder="Country"
+                placeholder={company.country}
                 value={formData.country}
                 onChange={handleInputChange}
               />
@@ -146,7 +146,7 @@ const Profile = () => {
               <input
                 type="text"
                 name="city"
-                placeholder="City"
+                placeholder={company.city}
                 value={formData.city}
                 onChange={handleInputChange}
               />
@@ -158,7 +158,7 @@ const Profile = () => {
             <input
               type="text"
               name="websiteUrl"
-              placeholder="Website url"
+              placeholder={company.websiteUrl}
               value={formData.websiteUrl}
               onChange={handleInputChange}
             />
@@ -199,9 +199,9 @@ const Profile = () => {
           <div className="form-field">
             <label>Business Summary</label>
             <textarea
-              name="summary"
-              placeholder="Here you can write a more detailed description of what your business does"
-              value={formData.summary}
+              name="businessSummary"
+              placeholder={company.businessSummary}
+              value={formData.businessSummary}
               onChange={handleInputChange}
             />
           </div>
@@ -214,7 +214,7 @@ const Profile = () => {
                 <input
                   type="text"
                   name="pitchDeck"
-                  placeholder="PitchDeck"
+                  placeholder={company.pitchDeck}
                   value={formData.pitchDeck}
                   onChange={handleInputChange}
                 />
@@ -224,7 +224,7 @@ const Profile = () => {
                 <input
                   type="text"
                   name="otherDocuments"
-                  placeholder="Other Documents"
+                  placeholder={company.otherDocuments}
                   value={formData.otherDocuments}
                   onChange={handleInputChange}
                 />

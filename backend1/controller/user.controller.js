@@ -28,15 +28,25 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByIdAndUpdate(id, req.body, {
-      runValidators: true,
-    });
+    const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
+      return res.status(404).json({ message: "User not found" });
     }
-    const updatedUser = await User.findById(id);
+
+    // Update user fields
+    if (req.body.password) {
+      user.password = req.body.password; // Setting a new password will trigger the "pre('save')" hook
+    }
+    if (req.body.userName) {
+      user.userName = req.body.userName;
+    }
+    if (req.body.email) {
+      user.email = req.body.email;
+    }
+
+    // Save the user to trigger the pre-save hook
+    const updatedUser = await user.save();
+
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(500).json({
