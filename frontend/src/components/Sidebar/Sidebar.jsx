@@ -5,7 +5,6 @@ import {
   FileText,
   List,
   MessageSquare,
-  Settings,
   Mail,
   LogOut,
   Home,
@@ -20,7 +19,7 @@ const Sidebar = () => {
   };
 
   const handleMeClick = () => {
-    navigate("/dashboard/profile");
+    navigate("/dashboard/me");
   };
 
   return (
@@ -78,17 +77,6 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              isActive ? styles.activeLink : styles.link
-            }
-          >
-            <Settings className={styles.icon} />
-            <span>Settings</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             to="/contact"
             className={({ isActive }) =>
               isActive ? styles.activeLink : styles.link
@@ -100,7 +88,7 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/dashboard/profile"
+            to="/dashboard/me"
             className={({ isActive }) =>
               isActive ? styles.activeLink : styles.link
             }

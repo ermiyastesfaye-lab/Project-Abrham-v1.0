@@ -6,7 +6,6 @@ import QuestionAndAnswers from "./QuestionAndAnswers";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import styles from "./Dashboard.module.css";
-import Profile from "./Profile";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -68,7 +67,6 @@ export default function Dashboard() {
               />
               <Route path="documents" element={<Documents />} />
               <Route path="qa" element={<QuestionAndAnswers />} />
-              <Route path="profile" element={<Profile />} />
             </Routes>
           </div>
         </main>

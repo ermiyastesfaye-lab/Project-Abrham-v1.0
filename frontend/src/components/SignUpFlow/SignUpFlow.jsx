@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUpFlow.module.css";
+import { signup } from "../../api/auth";
+import { postCompany } from "../../api/company";
+import { useCookies } from "react-cookie";
 
 const STEPS = {
   INITIAL: "INITIAL",
@@ -10,6 +13,9 @@ const STEPS = {
 };
 
 function SignUpFlow() {
+  const [cookie] = useCookies(["userId"]);
+  const [userId, setUserId] = useState(cookie.userId);
+  console.log(`Cookie: ${userId}`);
   const [currentStep, setCurrentStep] = useState(STEPS.INITIAL);
   const [formData, setFormData] = useState({
     initial: {
@@ -19,43 +25,71 @@ function SignUpFlow() {
       password: "",
     },
     companyInfo: {
+      companyCreator: userId,
       companyName: "",
-      description: "",
-      phoneNumber: "",
       country: "",
       city: "",
       websiteUrl: "",
       sector: "",
       stage: "",
+      businessSummary: "",
+      pitchDeck: "",
+      otherDocuments: "",
     },
-    documents: {
-      pitchDeck: null,
-      otherDocuments: null,
-    },
-    questions: {
-      question1: "",
-      question2: "",
-      question3: "",
-      question4: "",
-    },
+    // documents: {
+    //   pitchDeck: null,
+    //   otherDocuments: null,
+    // },
   });
+
+  useEffect(() => {
+    setUserId(cookie.userId);
+    setFormData((prevData) => ({
+      ...prevData,
+      companyInfo: {
+        ...prevData.companyInfo,
+        companyCreator: cookie.userId,
+      },
+    }));
+  }, [cookie.userId]);
 
   const navigate = useNavigate();
 
-  const handleInitialSubmit = (e) => {
+  const handleInitialSubmit = async (e) => {
     e.preventDefault();
-    setCurrentStep(STEPS.COMPANY_INFO);
+    try {
+      console.log(formData.initial);
+      const res = await signup(formData.initial);
+      setCurrentStep(STEPS.COMPANY_INFO);
+    } catch (err) {
+      alert("Signup failed! Please try again");
+      console.log("Error Signing up: ", err);
+    }
   };
-
   const handleCompanyInfoSubmit = (e) => {
     e.preventDefault();
+    setFormData((prevData) => ({
+      ...prevData,
+      companyInfo: {
+        ...prevData.companyInfo,
+        companyCreator: userId,
+      },
+    }));
+
     setCurrentStep(STEPS.DOCUMENTS);
-    alert("Signed successfully!");
   };
 
-  const handleDocumentsSubmit = (e) => {
+  const handleDocumentsSubmit = async (e) => {
     e.preventDefault();
-    setCurrentStep(STEPS.QUESTIONS);
+    try {
+      const res = await postCompany(formData.companyInfo);
+      console.log(res);
+      navigate("/listings");
+    } catch (err) {
+      alert("Posting company failed! Please try again");
+      console.log("Error Signing up: ", err);
+    }
+    console.log(cookie);
   };
 
   const handleFinalSubmit = (e) => {
@@ -118,8 +152,8 @@ function SignUpFlow() {
               required
             >
               <option value="">Role</option>
-              <option value="entrepreneur">Entrepreneur</option>
-              <option value="investor">Investor</option>
+              <option value="company">company</option>
+              <option value="investor">investor</option>
             </select>
             <input
               type="password"
@@ -136,7 +170,6 @@ function SignUpFlow() {
             <button type="submit">Signup</button>
           </form>
         );
-
       case STEPS.COMPANY_INFO:
         return (
           <form onSubmit={handleCompanyInfoSubmit} className={styles.form}>
@@ -151,20 +184,6 @@ function SignUpFlow() {
                   companyInfo: {
                     ...formData.companyInfo,
                     companyName: e.target.value,
-                  },
-                })
-              }
-              required
-            />
-            <textarea
-              placeholder="Description"
-              value={formData.companyInfo.description}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  companyInfo: {
-                    ...formData.companyInfo,
-                    description: e.target.value,
                   },
                 })
               }
@@ -200,6 +219,65 @@ function SignUpFlow() {
               }
               required
             />
+            <input
+              type="text"
+              placeholder="Website url"
+              value={formData.companyInfo.websiteUrl}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyInfo: {
+                    ...formData.companyInfo,
+                    websiteUrl: e.target.value,
+                  },
+                })
+              }
+              required
+            />
+            <input
+              type="text"
+              placeholder="sector"
+              value={formData.companyInfo.sector}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyInfo: {
+                    ...formData.companyInfo,
+                    sector: e.target.value,
+                  },
+                })
+              }
+              required
+            />
+            <input
+              type="text"
+              placeholder="stage"
+              value={formData.companyInfo.stage}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyInfo: {
+                    ...formData.companyInfo,
+                    stage: e.target.value,
+                  },
+                })
+              }
+              required
+            />
+            <textarea
+              placeholder="Business summary"
+              value={formData.companyInfo.businessSummary}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyInfo: {
+                    ...formData.companyInfo,
+                    businessSummary: e.target.value,
+                  },
+                })
+              }
+              required
+            />
             <button type="submit">Next</button>
           </form>
         );
@@ -208,7 +286,37 @@ function SignUpFlow() {
         return (
           <form onSubmit={handleDocumentsSubmit} className={styles.form}>
             <h2>Upload Documents</h2>
-            <div className={styles.uploadBox}>
+            <input
+              type="text"
+              placeholder="pitchDeck"
+              value={formData.companyInfo.pitchDeck}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyInfo: {
+                    ...formData.companyInfo,
+                    pitchDeck: e.target.value,
+                  },
+                })
+              }
+              required
+            />
+            <input
+              type="text"
+              placeholder="Other documents"
+              value={formData.companyInfo.otherDocuments}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyInfo: {
+                    ...formData.companyInfo,
+                    otherDocuments: e.target.value,
+                  },
+                })
+              }
+              required
+            />
+            {/* <div className={styles.uploadBox}>
               <label htmlFor="pitchDeck">
                 Upload Pitch Deck
                 <input
@@ -234,47 +342,10 @@ function SignUpFlow() {
               {formData.documents.otherDocuments && (
                 <p>Selected file: {formData.documents.otherDocuments.name}</p>
               )}
-            </div>
+            </div> */}
             <button type="submit">Next</button>
           </form>
         );
-
-      case STEPS.QUESTIONS:
-        return (
-          <form onSubmit={handleFinalSubmit} className={styles.form}>
-            <h2>Additional Information</h2>
-            <textarea
-              placeholder="What does your company do?"
-              value={formData.questions.question1}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  questions: {
-                    ...formData.questions,
-                    question1: e.target.value,
-                  },
-                })
-              }
-              required
-            />
-            <textarea
-              placeholder="What is your target market?"
-              value={formData.questions.question2}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  questions: {
-                    ...formData.questions,
-                    question2: e.target.value,
-                  },
-                })
-              }
-              required
-            />
-            <button type="submit">Submit</button>
-          </form>
-        );
-
       default:
         return null;
     }

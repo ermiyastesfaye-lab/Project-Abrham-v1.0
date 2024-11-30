@@ -7,16 +7,18 @@ import ForUsers from "./components/ForUsers/ForUsers";
 import HowItWorks from "./components/HowItWorks/HowItWorks";
 import AboutUs from "./components/AboutUs/AboutUs";
 import Sidebar from "./components/Sidebar/Sidebar";
-import SignUpFlow from "./components/SignupFlow/SignupFlow";
+import SignUpFlow from "./components/SignUpFlow/SignUpFlow";
 import Footer from "./components/Footer/Footer";
 import SignIn from "./components/SignIn/SignIn";
 import Dashboard from "./components/Dashboard/Dashboard";
+import OverView from "./components/Dashboard/Overview";
 import Contact from "./components/Contacts/Contacts";
 import Listings from "./components/Listings/Listings";
 import Message from "./components/message/Message";
 import PaymentPage from "./components/PaymentPage/PaymentPage";
-import Profile from "./components/Profile/Profile";
 import "./index.css";
+import Profile from "./components/Dashboard/Profile";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
             }
           />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="listings/overview" element={<OverView />} />
           <Route path="/signup" element={<SignUpFlow />} />
           <Route
             path="/dashboard/*"
@@ -77,13 +80,12 @@ function App() {
               </div>
             }
           />
-          // In App.jsx
           <Route
-            path="/dashboard/*"
+            path="/dashboard/me"
             element={
               <div className="dashboard-layout">
                 <Sidebar />
-                <Dashboard />
+                <UserProfile />
               </div>
             }
           />

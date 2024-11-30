@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./SignIn.module.css";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../api/auth";
 
-const SignIn = ({ onSignIn }) => {
+const SignIn = () => {
   const [formData, setFormData] = useState({
+    userName: "",
     email: "",
     password: "",
     rememberMe: false,
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -19,13 +19,16 @@ const SignIn = ({ onSignIn }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Here you would typically validate the user's credentials
-    // For now, we'll just call onSignIn and navigate to the dashboard
-    onSignIn();
-    navigate("/dashboard");
+    try {
+      const res = await login(formData);
+      navigate("/listings");
+    } catch (err) {
+      alert("Login failed! Please try again");
+      console.log("Error Signing up: ", err);
+    }
   };
 
   return (
@@ -34,6 +37,15 @@ const SignIn = ({ onSignIn }) => {
         <h2>WELCOME BACK</h2>
         <p>Welcome back! Please enter your details.</p>
         <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="userName"
+            placeholder="Enter user name"
+            value={formData.userName}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
           <input
             type="email"
             name="email"
@@ -70,7 +82,7 @@ const SignIn = ({ onSignIn }) => {
         </form>
         <div className={styles.divider}>OR</div>
         <button className={styles.googleButton}>
-          <img src="/placeholder.svg?height=20&width=20" alt="Google Icon" />
+          <img src="/path-to-google-icon.png" alt="Google Icon" />
           Continue with Google
         </button>
         <p className={styles.signupLink}>
@@ -79,7 +91,7 @@ const SignIn = ({ onSignIn }) => {
       </div>
       <div className={styles.signinRight}>
         <img
-          src="/placeholder.svg?height=300&width=400"
+          src="/path-to-your-image.png"
           alt="Illustration"
           className={styles.signinIllustration}
         />
