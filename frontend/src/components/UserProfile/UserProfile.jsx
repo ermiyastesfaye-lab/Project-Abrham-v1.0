@@ -5,10 +5,10 @@ import { editUser } from "../../api/user";
 import { useCookies } from "react-cookie";
 
 const UserProfile = () => {
-  const [cookies] = useCookies(); // Access all cookies for debugging
-  console.log("All Cookies:", cookies); // Check what cookies are available
-  const userId = cookies.userId;
-  console.log("User ID:", userId);
+  // const [cookies] = useCookies(); // Access all cookies for debugging
+  // console.log("All Cookies:", cookies); // Check what cookies are available
+  // const userId = cookies.userId;
+  // console.log("User ID:", userId);
 
   const [userData, setUserData] = useState({
     userName: "",
