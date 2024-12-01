@@ -44,17 +44,6 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? styles.activeLink : styles.link
-            }
-          >
-            <FileText className={styles.icon} />
-            <span>About Us</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             to="/listings"
             className={({ isActive }) =>
               isActive ? styles.activeLink : styles.link

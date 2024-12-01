@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./SignIn.module.css";
-import { useNavigate } from "react-router-dom";
 import { login } from "../../api/auth";
+import signInBackground from "../../assets/Images/random.jpg";
+import googleIcon from "../../assets/Images/google.png";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +29,7 @@ const SignIn = () => {
       navigate("/listings");
     } catch (err) {
       alert("Login failed! Please try again");
-      console.log("Error Signing up: ", err);
+      console.log("Error Signing in: ", err);
     }
   };
 
@@ -74,7 +76,7 @@ const SignIn = () => {
               />
               Remember me
             </label>
-            <a href="/forgot-password">Forgot password</a>
+            <Link to="/forgot-password">Forgot password</Link>
           </div>
           <button type="submit" className={styles.signinButton}>
             Login
@@ -82,19 +84,22 @@ const SignIn = () => {
         </form>
         <div className={styles.divider}>OR</div>
         <button className={styles.googleButton}>
-          <img src="/path-to-google-icon.png" alt="Google Icon" />
+          <img src={googleIcon} alt="Google Icon" />
           Continue with Google
         </button>
         <p className={styles.signupLink}>
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>
-      <div className={styles.signinRight}>
-        <img
-          src="/path-to-your-image.png"
-          alt="Illustration"
-          className={styles.signinIllustration}
-        />
+      <div
+        className={styles.signinRight}
+        style={{ backgroundImage: `url(${signInBackground})` }}
+      >
+        <div className={styles.overlay}></div>
+        <div className={styles.content}>
+          <h2>Join our community of innovators and investors</h2>
+          <p>Connect, collaborate, and create the future of startups</p>
+        </div>
       </div>
     </div>
   );

@@ -1,91 +1,105 @@
 .howItWorks {
   padding: 80px 0;
-  background-color: #ffffff;
+  background-color: white;
+  text-align: center;
 }
 
 .howItWorks h2 {
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 50px;
-  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+  color: #000;
 }
 
 .steps {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .step {
-  flex-basis: calc(33.333% - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 20px;
-  margin-bottom: 30px;
 }
 
 .stepNumber {
-  width: 50px;
-  height: 50px;
-  background-color: #007bff;
+  width: 60px;
+  height: 60px;
+  background-color: #bf8136;
   color: white;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 1.5em;
-  margin: 0 auto 20px;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .step h3 {
-  font-size: 1.3em;
+  color: #bf8136;
+  font-size: 1.2rem;
   margin-bottom: 15px;
-  color: #007bff;
 }
 
 .step p {
-  font-size: 1em;
   color: #666;
+  line-height: 1.6;
 }
 
-.cta {
-  text-align: center;
-  background-color: #f8f9fa;
-  padding: 50px 20px;
-  margin-top: 50px;
+.getFunded {
+  margin-top: 80px;
+  padding: 60px 20px;
+  background-color: #f5f5f5;
 }
 
-.cta h3 {
-  font-size: 2em;
+.getFunded h2 {
+  font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #333;
 }
 
-.cta p {
-  font-size: 1.1em;
+.getFunded p {
   max-width: 600px;
   margin: 0 auto 30px;
   color: #666;
+  line-height: 1.6;
 }
 
 .joinNow {
-  background-color: #007bff;
+  display: inline-block;
+  padding: 15px 40px;
+  background-color: #bf8136;
   color: white;
-  border: none;
-  padding: 12px 30px;
-  font-size: 1.1em;
+  text-decoration: none;
   border-radius: 5px;
-  cursor: pointer;
+  font-weight: 600;
   transition: background-color 0.3s ease;
 }
 
 .joinNow:hover {
-  background-color: #0056b3;
+  background-color: #a66b2b;
 }
 
 @media (max-width: 768px) {
-  .step {
-    flex-basis: 100%;
+  .howItWorks {
+    padding: 40px 0;
+  }
+
+  .howItWorks h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+
+  .getFunded {
+    margin-top: 40px;
+    padding: 40px 20px;
+  }
+
+  .getFunded h2 {
+    font-size: 2rem;
   }
 }

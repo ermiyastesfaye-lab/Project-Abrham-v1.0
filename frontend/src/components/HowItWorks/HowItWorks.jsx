@@ -1,17 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./HowItWorks.module.css";
 
 function HowItWorks() {
-  const navigate = useNavigate();
-
-  const handleJoinNow = () => {
-    navigate("/signup");
-  };
-
   return (
-    <section id="how-it-works" className={styles.howItWorks}>
+    <section className={styles.howItWorks}>
       <h2>How it works</h2>
+
       <div className={styles.steps}>
         <div className={styles.step}>
           <div className={styles.stepNumber}>1</div>
@@ -21,6 +16,7 @@ function HowItWorks() {
             information.
           </p>
         </div>
+
         <div className={styles.step}>
           <div className={styles.stepNumber}>2</div>
           <h3>POST YOUR IDEA</h3>
@@ -29,6 +25,7 @@ function HowItWorks() {
             community.
           </p>
         </div>
+
         <div className={styles.step}>
           <div className={styles.stepNumber}>3</div>
           <h3>GET INVESTMENT</h3>
@@ -38,15 +35,16 @@ function HowItWorks() {
           </p>
         </div>
       </div>
-      <div className={styles.cta}>
-        <h3>Get your startup funded</h3>
+
+      <div className={styles.getFunded}>
+        <h2>Get your startup funded</h2>
         <p>
           Join the funding platform for startups and investors, get funded by
           top VCs, angel investors, and corporate partners!
         </p>
-        <button className={styles.joinNow} onClick={handleJoinNow}>
+        <Link to="/signup" className={styles.joinNow}>
           Join now
-        </button>
+        </Link>
       </div>
     </section>
   );

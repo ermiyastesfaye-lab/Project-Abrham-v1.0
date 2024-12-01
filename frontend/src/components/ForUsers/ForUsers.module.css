@@ -1,64 +1,96 @@
 .forUsers {
-  background-color: #4a2f80;
+  background-color: #000;
+  padding: 80px 0;
   color: white;
-  padding: 4rem 2rem;
-  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .forUsers h2 {
-  font-size: 1.5rem;
+  text-align: center;
+  font-size: 2rem;
   max-width: 800px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 60px;
+  line-height: 1.4;
 }
 
 .cards {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
 }
 
 .card {
-  background-color: white;
-  color: #333;
-  width: 300px;
-  padding: 2rem;
-  margin: 1rem;
+  background: white;
   border-radius: 10px;
-  text-align: left;
+  padding: 30px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
 }
 
 .card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.card p {
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 .card ul {
-  list-style-type: none;
-  padding-left: 0;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+  flex-grow: 1;
 }
 
 .card li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 15px;
+  color: #000;
 }
 
 .card li::before {
-  content: "✓";
-  color: #7c5cfc;
-  margin-right: 0.5rem;
+  color: #bf8136;
+  margin-right: 10px;
 }
 
-.card button {
+.signupButton {
+  display: inline-block;
+  padding: 15px 30px;
   background-color: transparent;
-  border: 1px solid #7c5cfc;
-  color: #7c5cfc;
-  padding: 0.75rem 1rem;
-  margin-top: 1rem;
-  width: 100%;
-  cursor: pointer;
+  color: #bf8136;
+  text-decoration: none;
+  border: 2px solid #bf8136;
+  border-radius: 5px;
+  text-align: center;
   transition: all 0.3s ease;
+  font-weight: 600;
 }
 
-.card button:hover {
-  background-color: #7c5cfc;
+.signupButton:hover {
+  background-color: #bf8136;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .forUsers {
+    padding: 40px 0;
+  }
+
+  .forUsers h2 {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,7 +1,8 @@
 .footer {
-  background-color: #f8f9fa;
+  background-color: #000;
   padding: 40px 0;
   width: 100%;
+  color: white;
 }
 
 .footerContent {
@@ -22,6 +23,7 @@
 .footerSection h3 {
   font-size: 18px;
   margin-bottom: 15px;
+  color: #bf8136;
 }
 
 .footerSection ul {
@@ -34,8 +36,13 @@
 }
 
 .footerSection a {
-  color: #333;
+  color: white;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerSection a:hover {
+  color: #bf8136;
 }
 
 .subscribeForm {
@@ -46,15 +53,22 @@
 .subscribeForm input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #333;
+  background-color: transparent;
+  color: white;
 }
 
 .subscribeForm button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #bf8136;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscribeForm button:hover {
+  background-color: #a66b2b;
 }
 
 .socialIcons {
@@ -66,12 +80,17 @@
   display: inline-block;
   width: 30px;
   height: 30px;
-  background-color: #333;
+  background-color: #bf8136;
   color: white;
   text-align: center;
   line-height: 30px;
   text-decoration: none;
-  border-radius: 50%;
+  border-border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.socialIcon:hover {
+  background-color: #a66b2b;
 }
 
 .copyright {

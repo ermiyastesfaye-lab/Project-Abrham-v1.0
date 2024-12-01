@@ -3,20 +3,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #ffffff;
+  background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.hamburger-line {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background-color: #333;
-  margin: 5px 0;
-  transition: 0.4s;
-}
+
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
+  color: #000;
 }
 
 .nav {
@@ -24,35 +18,46 @@
   gap: 1rem;
 }
 
-.nav a {
+.navLink {
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.actions {
-  display: flex;
-  gap: 1rem;
+.navLink:hover {
+  color: #bf8136;
 }
 
 .joinNow,
 .login {
   padding: 0.5rem 1rem;
+  margin: 5px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .joinNow {
-  background-color: #6c5ce7;
+  background-color: #bf8136;
   color: white;
+}
+
+.joinNow:hover {
+  background-color: #a66b2b;
 }
 
 .login {
   background-color: transparent;
-  color: #6c5ce7;
-  border: 1px solid #6c5ce7;
+  color: #bf8136;
+  border: 1px solid #bf8136;
+}
+
+.login:hover {
+  background-color: #bf8136;
+  color: white;
 }
 
 .hamburger {
@@ -75,7 +80,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background-color: #ffffff;
+    background-color: white;
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -83,10 +88,4 @@
   .hamburger {
     display: block;
   }
-}
-.hamburger-line.open {
-  background-color: #6c5ce7;
-}
-.nav-open {
-  display: flex;
 }

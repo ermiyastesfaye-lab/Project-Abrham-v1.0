@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Testimonials.module.css";
+import testimonialBackground from "../../assets/Images/test.jpg";
 
 function Testimonials() {
   const navigate = useNavigate();
@@ -10,7 +11,10 @@ function Testimonials() {
   };
 
   return (
-    <section className={styles.testimonials}>
+    <section
+      className={styles.testimonials}
+      style={{ backgroundImage: `url(${testimonialBackground})` }}
+    >
       <h2>Get your startup funded by TOP Investors</h2>
       <p>
         Accelerate your startup's growth with name, the fastest-growing
