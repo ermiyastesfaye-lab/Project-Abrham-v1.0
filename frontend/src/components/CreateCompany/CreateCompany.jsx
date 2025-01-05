@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignUpFlow.module.css";
-import { signup } from "../../api/auth";
 import { postCompany } from "../../api/company";
 import { useCookies } from "react-cookie";
 
 const STEPS = {
-  INITIAL: "INITIAL",
   COMPANY_INFO: "COMPANY_INFO",
   DOCUMENTS: "DOCUMENTS",
-  QUESTIONS: "QUESTIONS",
 };
 
-function SignUpFlow() {
-  const [cookie] = useCookies(["userId"]);
-  const [userId, setUserId] = useState(cookie.userId);
+function CreateCompany() {
+  const [cookie] = useCookies("userId");
+  const [userId, setUserId] = useState(parseInt(cookie.userId, 10));
   console.log(`Cookie: ${userId}`);
-  const [currentStep, setCurrentStep] = useState(STEPS.INITIAL);
+  const [currentStep, setCurrentStep] = useState(STEPS.COMPANY_INFO);
   const [formData, setFormData] = useState({
-    initial: {
-      userName: "",
-      email: "",
-      role: "",
-      password: "",
-    },
     companyInfo: {
       companyCreator: userId,
       companyName: "",
@@ -33,46 +24,30 @@ function SignUpFlow() {
       sector: "",
       stage: "",
       businessSummary: "",
-      pitchDeck: "",
-      otherDocuments: "",
+      pitchDeck: null,
+      otherDocuments: null,
     },
-    // documents: {
-    //   pitchDeck: null,
-    //   otherDocuments: null,
-    // },
   });
 
   useEffect(() => {
-    setUserId(cookie.userId);
+    setUserId(parseInt(cookie.userId, 10));
     setFormData((prevData) => ({
       ...prevData,
       companyInfo: {
         ...prevData.companyInfo,
-        companyCreator: cookie.userId,
+        companyCreator: parseInt(cookie.userId),
       },
     }));
   }, [cookie.userId]);
 
   const navigate = useNavigate();
-
-  const handleInitialSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      console.log(formData.initial);
-      const res = await signup(formData.initial);
-      setCurrentStep(STEPS.COMPANY_INFO);
-    } catch (err) {
-      alert("Signup failed! Please try again");
-      console.log("Error Signing up: ", err);
-    }
-  };
   const handleCompanyInfoSubmit = (e) => {
     e.preventDefault();
     setFormData((prevData) => ({
       ...prevData,
       companyInfo: {
         ...prevData.companyInfo,
-        companyCreator: userId,
+        // companyCreator: userId,
       },
     }));
 
@@ -81,95 +56,51 @@ function SignUpFlow() {
 
   const handleDocumentsSubmit = async (e) => {
     e.preventDefault();
+
+    const formDataToSubmit = new FormData();
+
+    Object.keys(formData.companyInfo).forEach((key) => {
+      formDataToSubmit.append(key, formData.companyInfo[key]);
+    });
+
+    if (formData.pitchDeck) {
+      formDataToSubmit.append("pitchDeck", formData.companyInfo[pitchDeck]);
+    }
+    if (formData.otherDocuments) {
+      formDataToSubmit.append(
+        "otherDocuments",
+        formData.companyInfo[otherDocuments]
+      );
+    }
+
+    console.log("FormData being submitted:");
+    for (let [key, value] of formDataToSubmit.entries()) {
+      console.log(`${key}:`, value);
+    }
+
     try {
-      const res = await postCompany(formData.companyInfo);
-      console.log(res);
+      const res = await postCompany(formDataToSubmit);
+      alert("Company created successfully!");
       navigate("/listings");
     } catch (err) {
       alert("Posting company failed! Please try again");
-      console.log("Error Signing up: ", err);
+      console.error("Error creating company:", err);
     }
-    console.log(cookie);
   };
-
-  const handleFinalSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Idea submitted successfully!");
-    navigate("/listings");
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files.length > 0) {
+      setFormData((prevData) => ({
+        ...prevData,
+        companyInfo: {
+          ...prevData.companyInfo,
+          [name]: files[0],
+        },
+      }));
+    }
   };
-
-  const handleFileChange = (e, documentType) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      documents: {
-        ...prevData.documents,
-        [documentType]: file,
-      },
-    }));
-  };
-
   const renderStep = () => {
     switch (currentStep) {
-      case STEPS.INITIAL:
-        return (
-          <form onSubmit={handleInitialSubmit} className={styles.form}>
-            <h2>Create your account</h2>
-            <input
-              type="text"
-              placeholder="User name"
-              value={formData.initial.firstName}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  initial: { ...formData.initial, userName: e.target.value },
-                })
-              }
-              required
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={formData.initial.email}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  initial: { ...formData.initial, email: e.target.value },
-                })
-              }
-              required
-            />
-            <select
-              name="role"
-              value={formData.role}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  initial: { ...formData.initial, role: e.target.value },
-                })
-              }
-              required
-            >
-              <option value="">Role</option>
-              <option value="company">company</option>
-              <option value="investor">investor</option>
-            </select>
-            <input
-              type="password"
-              placeholder="Password"
-              value={formData.initial.password}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  initial: { ...formData.initial, password: e.target.value },
-                })
-              }
-              required
-            />
-            <button type="submit">Signup</button>
-          </form>
-        );
       case STEPS.COMPANY_INFO:
         return (
           <form onSubmit={handleCompanyInfoSubmit} className={styles.form}>
@@ -286,63 +217,31 @@ function SignUpFlow() {
         return (
           <form onSubmit={handleDocumentsSubmit} className={styles.form}>
             <h2>Upload Documents</h2>
-            <input
-              type="text"
-              placeholder="pitchDeck"
-              value={formData.companyInfo.pitchDeck}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  companyInfo: {
-                    ...formData.companyInfo,
-                    pitchDeck: e.target.value,
-                  },
-                })
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Other documents"
-              value={formData.companyInfo.otherDocuments}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  companyInfo: {
-                    ...formData.companyInfo,
-                    otherDocuments: e.target.value,
-                  },
-                })
-              }
-              required
-            />
-            {/* <div className={styles.uploadBox}>
+            <div>
               <label htmlFor="pitchDeck">
                 Upload Pitch Deck
                 <input
+                  name="pitchDeck"
                   id="pitchDeck"
                   type="file"
-                  onChange={(e) => handleFileChange(e, "pitchDeck")}
+                  accept=".pdf,.ppt,.pptx"
+                  onChange={handleFileChange}
                   required
                 />
               </label>
-              {formData.documents.pitchDeck && (
-                <p>Selected file: {formData.documents.pitchDeck.name}</p>
-              )}
             </div>
-            <div className={styles.uploadBox}>
+            <div>
               <label htmlFor="otherDocuments">
                 Upload Other Documents
                 <input
+                  name="otherDocuments"
                   id="otherDocuments"
                   type="file"
-                  onChange={(e) => handleFileChange(e, "otherDocuments")}
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileChange}
                 />
               </label>
-              {formData.documents.otherDocuments && (
-                <p>Selected file: {formData.documents.otherDocuments.name}</p>
-              )}
-            </div> */}
+            </div>
             <button type="submit">Next</button>
           </form>
         );
@@ -356,31 +255,17 @@ function SignUpFlow() {
       <div className={styles.progress}>
         <div
           className={`${styles.step} ${
-            currentStep === STEPS.INITIAL ? styles.active : ""
+            currentStep === STEPS.COMPANY_INFO ? styles.active : ""
           }`}
         >
           1
         </div>
         <div
           className={`${styles.step} ${
-            currentStep === STEPS.COMPANY_INFO ? styles.active : ""
-          }`}
-        >
-          2
-        </div>
-        <div
-          className={`${styles.step} ${
             currentStep === STEPS.DOCUMENTS ? styles.active : ""
           }`}
         >
-          3
-        </div>
-        <div
-          className={`${styles.step} ${
-            currentStep === STEPS.QUESTIONS ? styles.active : ""
-          }`}
-        >
-          4
+          2
         </div>
       </div>
       {renderStep()}
@@ -388,4 +273,4 @@ function SignUpFlow() {
   );
 }
 
-export default SignUpFlow;
+export default CreateCompany;

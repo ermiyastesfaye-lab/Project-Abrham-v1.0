@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   User,
@@ -10,10 +10,31 @@ import {
   Home,
 } from "react-feather";
 import styles from "./Sidebar.module.css";
+import { getUser } from "../../api/user";
+import { useCookies } from "react-cookie";
 
 const Sidebar = () => {
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
+  const [cookie] = useCookies(["userId"]);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = cookie.userId;
+      if (userId) {
+        const res = await getUser(userId);
+        console.log(res);
+        setUserRole(res.data.role);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  console.log("User Role: ", userRole);
+
+  const handleLogout = () => {
+    navigate("/signin");
+  };
   const handleProfileClick = () => {
     navigate("/dashboard/profile");
   };
@@ -30,18 +51,20 @@ const Sidebar = () => {
       </div>
 
       <ul className={styles.navList}>
-        <li>
-          <NavLink
-            to="/dashboard/profile"
-            className={({ isActive }) =>
-              isActive ? styles.activeLink : styles.link
-            }
-            onClick={handleProfileClick}
-          >
-            <Home className={styles.icon} />
-            <span>Profile</span>
-          </NavLink>
-        </li>
+        {userRole === "company" && (
+          <li>
+            <NavLink
+              to="/dashboard/profile"
+              className={({ isActive }) =>
+                isActive ? styles.activeLink : styles.link
+              }
+              onClick={handleProfileClick}
+            >
+              <Home className={styles.icon} />
+              <span>Profile</span>
+            </NavLink>
+          </li>
+        )}
         <li>
           <NavLink
             to="/listings"
@@ -87,12 +110,20 @@ const Sidebar = () => {
             <span>Me</span>
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/signin"
+            className={({ isActive }) =>
+              isActive ? styles.activeLink : styles.link
+            }
+          >
+            <button className={styles.logoutButton} onClick={handleLogout}>
+              <LogOut className={styles.icon} />
+              <span>Log out</span>
+            </button>
+          </NavLink>
+        </li>
       </ul>
-
-      <button className={styles.logoutButton}>
-        <LogOut className={styles.icon} />
-        <span>Log out</span>
-      </button>
     </nav>
   );
 };

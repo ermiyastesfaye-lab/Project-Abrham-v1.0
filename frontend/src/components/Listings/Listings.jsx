@@ -6,7 +6,7 @@ import { getCompanies } from "../../api/company";
 const Company = ({ company }) => {
   const navigate = useNavigate();
   const handleListingClick = (company) => {
-    localStorage.setItem("company_id", company._id);
+    localStorage.setItem("company_id", company.companyCreatorId);
     navigate("overview");
   };
 

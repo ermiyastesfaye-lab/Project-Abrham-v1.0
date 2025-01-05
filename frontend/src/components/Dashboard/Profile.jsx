@@ -3,10 +3,9 @@ import { Link, NavLink } from "react-router-dom";
 import "./Profile.css";
 import { useCookies } from "react-cookie";
 import { editCompany, getCompany } from "../../api/company";
-
 const Profile = () => {
   const [company, setCompany] = useState({});
-  const [cookie] = useCookies(["userId"]);
+  const [cookie] = useCookies("userId");
   console.log(cookie);
   const userId = cookie.userId;
   console.log("User ID from cookie:", userId);
@@ -27,8 +26,8 @@ const Profile = () => {
     sector: "",
     stage: "",
     businessSummary: "",
-    pitchDeck: "",
-    otherDocuments: "",
+    pitchDeck: null,
+    otherDocuments: null,
   });
 
   const handleInputChange = (e) => {
@@ -39,22 +38,37 @@ const Profile = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: files[0],
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedCompany = {};
-    if (formData.companyName) updatedCompany.companyName = formData.companyName;
-    if (formData.country) updatedCompany.country = formData.country;
-    if (formData.city) updatedCompany.city = formData.city;
-    if (formData.websiteUrl) updatedCompany.websiteUrl = formData.websiteUrl;
-    if (formData.sector) updatedCompany.sector = formData.sector;
-    if (formData.stage) updatedCompany.stage = formData.stage;
+    const updatedCompany = new FormData();
+    if (formData.companyName)
+      updatedCompany.append("companyName", formData.companyName);
+    if (formData.country) updatedCompany.append("country", formData.country);
+    if (formData.city) updatedCompany.append("city", formData.city);
+    if (formData.websiteUrl)
+      updatedCompany.append("websiteUrl", formData.websiteUrl);
+    if (formData.sector) updatedCompany.append("sector", formData.sector);
+    if (formData.stage) updatedCompany.append("stage", formData.stage);
     if (formData.businessSummary)
-      updatedCompany.businessSummary = formData.businessSummary;
-    if (formData.pitchDeck) updatedCompany.pitchDeck = formData.pitchDeck;
+      updatedCompany.append("businessSummary", formData.businessSummary);
+    if (formData.pitchDeck)
+      updatedCompany.append("pitchDeck", formData.pitchDeck);
     if (formData.otherDocuments)
-      updatedCompany.otherDocuments = formData.otherDocuments;
+      updatedCompany.append("otherDocuments", formData.otherDocuments);
+    updatedCompany.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
     try {
-      const res = await editCompany(updatedCompany);
+      console.log("userId for params:", userId);
+      const res = await editCompany(updatedCompany, userId);
       console.log(res);
       alert("Editing company successfull");
     } catch (err) {
@@ -70,30 +84,6 @@ const Profile = () => {
           <div className="company-logo"></div>
           <div className="company-header-info">
             <h2>Company Name</h2>
-            <div className="description-container">
-              <p className="description">Short description</p>
-              <input
-                type="text"
-                placeholder="Website URL"
-                className="website-input"
-              />
-            </div>
-            <div className="header-fields">
-              <div className="input-group">
-                <input
-                  type="text"
-                  placeholder="Website URL"
-                  className="website-input"
-                />
-              </div>
-              <div className="input-group">
-                <input
-                  type="text"
-                  placeholder="Country"
-                  className="country-input"
-                />
-              </div>
-            </div>
           </div>
         </div>
 
@@ -212,21 +202,21 @@ const Profile = () => {
               <div className="form-field">
                 <label>Pitch Deck</label>
                 <input
-                  type="text"
                   name="pitchDeck"
-                  placeholder={company.pitchDeck}
-                  value={formData.pitchDeck}
-                  onChange={handleInputChange}
+                  id="pitchDeck"
+                  type="file"
+                  accept=".pdf,.ppt,.pptx"
+                  onChange={handleFileChange}
                 />
               </div>
               <div className="form-field">
                 <label>Other Documents</label>
                 <input
-                  type="text"
                   name="otherDocuments"
-                  placeholder={company.otherDocuments}
-                  value={formData.otherDocuments}
-                  onChange={handleInputChange}
+                  id="otherDocuments"
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileChange}
                 />
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
@@ -7,7 +7,6 @@ import ForUsers from "./components/ForUsers/ForUsers";
 import HowItWorks from "./components/HowItWorks/HowItWorks";
 import AboutUs from "./components/AboutUs/AboutUs";
 import Sidebar from "./components/Sidebar/Sidebar";
-import SignUpFlow from "./components/SignUpFlow/SignUpFlow";
 import Footer from "./components/Footer/Footer";
 import SignIn from "./components/SignIn/SignIn";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -19,6 +18,11 @@ import PaymentPage from "./components/PaymentPage/PaymentPage";
 import "./index.css";
 import Profile from "./components/Dashboard/Profile";
 import UserProfile from "./components/UserProfile/UserProfile";
+import SignUp from "./components/SignUp/SignUp";
+import CreateCompany from "./components/CreateCompany/CreateCompany";
+import { useCookies } from "react-cookie";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -39,9 +43,12 @@ function App() {
               </>
             }
           />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="listings/overview" element={<OverView />} />
-          <Route path="/signup" element={<SignUpFlow />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/createCompany" element={<CreateCompany />} />
           <Route
             path="/dashboard/*"
             element={
@@ -51,7 +58,15 @@ function App() {
               </div>
             }
           />
-          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/contact"
+            element={
+              <div className="dashboard-layout">
+                <Sidebar />
+                <Contact />
+              </div>
+            }
+          />
           <Route
             path="/listings"
             element={

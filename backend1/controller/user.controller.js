@@ -1,10 +1,11 @@
 const express = require("express");
 const User = require("../model/user.model");
-const { trusted } = require("mongoose");
-
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
 const getUsers = async (req, res) => {
   try {
-    const user = await User.find({});
+    const user = await prisma.user.findMany({});
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({
@@ -16,7 +17,11 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(id, 10),
+      },
+    });
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({
@@ -28,24 +33,47 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    console.log(id);
+    const userId = parseInt(id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Update user fields
+    const updatedData = {};
+
     if (req.body.password) {
-      user.password = req.body.password; // Setting a new password will trigger the "pre('save')" hook
-    }
-    if (req.body.userName) {
-      user.userName = req.body.userName;
-    }
-    if (req.body.email) {
-      user.email = req.body.email;
+      const salt = await bcrypt.genSalt(10);
+      updatedData.password = await bcrypt.hash(req.body.password, salt);
     }
 
-    // Save the user to trigger the pre-save hook
-    const updatedUser = await user.save();
+    if (req.body.userName) {
+      updatedData.userName = req.body.userName;
+    }
+
+    if (req.body.email) {
+      updatedData.email = req.body.email;
+    }
+
+    if (Object.keys(updatedData).length === 0) {
+      return res.status(400).json({ message: "No fields to update" });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: updatedData,
+    });
 
     res.status(200).json(updatedUser);
   } catch (err) {
@@ -58,10 +86,21 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
+    const userId = parseInt(id, 10);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
     if (!user) {
-      return res.status(404).json({ messgae: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
     res.status(200).json({ message: "User deleted Successfully" });
   } catch (err) {
     res.status(500).json({

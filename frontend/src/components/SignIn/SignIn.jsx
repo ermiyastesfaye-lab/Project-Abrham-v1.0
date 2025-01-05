@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import styles from "./SignIn.module.css";
 import { login } from "../../api/auth";
 import signInBackground from "../../assets/Images/random.jpg";
@@ -12,7 +13,14 @@ const SignIn = () => {
     password: "",
     rememberMe: false,
   });
-
+  const [cookies, setCookie, removeCookie] = useCookies();
+  console.log(cookies);
+  console.log(cookies);
+  useEffect(() => {
+    Object.keys(cookies).forEach((cookieName) => {
+      setCookie(cookieName, "", { path: "/" });
+    });
+  }, []);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
@@ -76,7 +84,7 @@ const SignIn = () => {
               />
               Remember me
             </label>
-            <Link to="/forgot-password">Forgot password</Link>
+            <Link to="/forgotpassword">Forgot password</Link>
           </div>
           <button type="submit" className={styles.signinButton}>
             Login

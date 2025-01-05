@@ -1,122 +1,99 @@
-import React, { useState } from "react";
-import "./SignUp.module.css";
+import React, { useEffect, useState } from "react";
+import styles from "../CreateCompany/SignUpFlow.module.css";
+import { signup } from "../../api/auth";
+import { useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
     role: "",
-    phoneNumber: "",
     password: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
+  useEffect(() => {
+    const clearCookies = () => {
+      Object.keys(cookies).forEach((cookieName) => {
+        removeCookie(cookieName);
+      });
+    };
+    clearCookies();
+  }, []);
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const res = await signup(formData);
+      alert("Signup Successful!");
+      formData.role === "company"
+        ? navigate("/createCompany")
+        : navigate("/listings");
+    } catch (err) {
+      alert("Signup Failed! Please try again");
+      console.log("Error Signing up: ", err);
+    }
     console.log(formData);
   };
 
   return (
-    <div className={styles.signupContainer}>
-      <div className={styles.signupLeft}>
-        <h1>Join the Platform Connecting Startups with Investors</h1>
-        <p>
-          Whether you're a visionary entrepreneur or a seasoned investor, sign
-          up today to unlock new opportunities.
-        </p>
-        <img
-          src="/path-to-your-image.png"
-          alt="Illustration"
-          className={styles.signupIllustration}
+    <div className={styles.signUpFlow}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h2>Create your account</h2>
+        <input
+          type="text"
+          placeholder="User name"
+          value={formData.userName}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              userName: e.target.value,
+            })
+          }
+          required
         />
-      </div>
-      <div className={styles.signupRight}>
-        <h2>Sign up now</h2>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.formRow}>
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First name"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              className={styles.input}
-            />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last name"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-              className={styles.input}
-            />
-          </div>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email address"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          >
-            <option value="">Role</option>
-            <option value="entrepreneur">Entrepreneur</option>
-            <option value="investor">Investor</option>
-          </select>
-          <input
-            type="tel"
-            name="phoneNumber"
-            placeholder="Phone number"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className={styles.input}
-          />
-          <p className={styles.passwordHint}>
-            Use 8 or more characters with a mix of letters, numbers & symbols
-          </p>
-          <label className={styles.checkboxLabel}>
-            <input type="checkbox" required />
-            By creating an account, I agree to the Terms of use and Privacy
-            Policy
-          </label>
-          <button type="submit" className={styles.signupButton}>
-            Create an account
-          </button>
-        </form>
-        <div className={styles.divider}>OR</div>
-        <button className={styles.googleButton}>
-          <img src="/path-to-google-icon.png" alt="Google Icon" />
-          Continue with Google
-        </button>
-      </div>
+        <input
+          type="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              email: e.target.value,
+            })
+          }
+          required
+        />
+        <select
+          name="role"
+          value={formData.role}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              role: e.target.value,
+            })
+          }
+          required
+        >
+          <option value="">Role</option>
+          <option value="company">company</option>
+          <option value="investor">investor</option>
+        </select>
+        <input
+          type="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              password: e.target.value,
+            })
+          }
+          required
+        />
+        <button type="submit">Signup</button>
+      </form>
     </div>
   );
 };

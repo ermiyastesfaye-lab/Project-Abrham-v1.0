@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Edit } from "lucide-react";
 import styles from "./UserProfile.module.css";
-import { editUser } from "../../api/user";
+import { deleteUser, editUser } from "../../api/user";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router";
 
 const UserProfile = () => {
   const [cookies] = useCookies();
@@ -50,6 +51,18 @@ const UserProfile = () => {
     } catch (err) {
       alert("Failed to update user details. Please try again.");
       console.log("Error updating user: ", err);
+    }
+  };
+
+  const navigate = useNavigate();
+  const handleDelete = async () => {
+    try {
+      const res = await deleteUser(userId);
+      alert("User deleted successfully!");
+      navigate("/signin");
+    } catch (e) {
+      alert("Failed to Delete user details. Please try again.");
+      console.log("Error updating user: ", e);
     }
   };
 
@@ -117,9 +130,12 @@ const UserProfile = () => {
         </div>
 
         <button type="submit" className={styles.saveButton}>
-          Save
+          Update
         </button>
       </form>
+      <button className={styles.saveButton} onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   );
 };

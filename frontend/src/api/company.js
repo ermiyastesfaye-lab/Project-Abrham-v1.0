@@ -10,14 +10,15 @@ export const postCompany = async (company) => {
   );
 };
 
-export const editCompany = async (updatedCompany) => {
+export const editCompany = async (updatedCompany, id) => {
   const response = await axios.patch(
-    "http://localhost:5000/api/companies",
+    `http://localhost:5000/api/companies/userId/${id}`,
     updatedCompany,
     {
       withCredentials: true,
     }
   );
+  return response;
 };
 
 export const getCompanies = async () => {
