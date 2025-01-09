@@ -36,7 +36,7 @@ function Listings() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getCompanies();
-      setCompanies(response.data);
+      setCompanies(response);
     };
     fetchData();
     localStorage.removeItem("company_id");

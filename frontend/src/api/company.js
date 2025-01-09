@@ -25,7 +25,7 @@ export const getCompanies = async () => {
   const response = await axios.get("http://localhost:5000/api/companies", {
     withCredentials: true,
   });
-  return response;
+  return response.data;
 };
 
 export const getCompany = async (id) => {

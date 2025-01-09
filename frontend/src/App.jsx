@@ -23,6 +23,9 @@ import CreateCompany from "./components/CreateCompany/CreateCompany";
 import { useCookies } from "react-cookie";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import AdminPage from "./components/adminpage/AdminPage";
+import AdminUsers from "./components/adminUsers/AdminUsers";
+import AdminCompanies from "./components/adminCompanies/AdminCompanies";
 
 function App() {
   return (
@@ -49,6 +52,9 @@ function App() {
           <Route path="listings/overview" element={<OverView />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/createCompany" element={<CreateCompany />} />
+          <Route path="/adminpage" element={<AdminPage />} />
+          <Route path="/adminusers" element={<AdminUsers />} />
+          <Route path="/admincompanies" element={<AdminCompanies />} />
           <Route
             path="/dashboard/*"
             element={

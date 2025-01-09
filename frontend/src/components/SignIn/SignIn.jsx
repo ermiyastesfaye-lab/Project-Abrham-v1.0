@@ -34,7 +34,12 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const res = await login(formData);
-      navigate("/listings");
+      console.log(res);
+      if (res.role !== "admin") {
+        navigate("/listings");
+      } else {
+        navigate("/adminusers");
+      }
     } catch (err) {
       alert("Login failed! Please try again");
       console.log("Error Signing in: ", err);

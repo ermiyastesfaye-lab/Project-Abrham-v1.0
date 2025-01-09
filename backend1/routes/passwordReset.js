@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const { PrismaClient } = require("@prisma/client");
@@ -30,22 +31,12 @@ router.post("/forgotpassword", async (req, res) => {
     });
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
+      service: "gmail", // Use your email service
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
-
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS,
-    //   },
-    // });
 
     const mailOptions = {
       to: email,
@@ -53,8 +44,12 @@ router.post("/forgotpassword", async (req, res) => {
       html: `<p>You requested a password reset. Click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.</p>`,
     };
 
-    await transporter.sendMail(mailOptions);
-    res.send("Password reset link sent");
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(500).send("Error sending email");
+      }
+      res.send("Password reset link sent");
+    });
   } catch (error) {
     console.error("Error in forgot password route:", error);
     res.status(500).send("An error occurred");

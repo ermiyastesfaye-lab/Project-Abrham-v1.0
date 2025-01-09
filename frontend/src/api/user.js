@@ -10,6 +10,14 @@ export const editUser = async (userId, updatedUser) => {
   );
 };
 
+export const getUsers = async () => {
+  const response = await axios.get(`http://localhost:5000/api/users`, {
+    withCredentials: true,
+  });
+  console.log("Response users:", response);
+  return response.data;
+};
+
 export const getUser = async (userId) => {
   const response = await axios.get(
     `http://localhost:5000/api/users/${userId}`,

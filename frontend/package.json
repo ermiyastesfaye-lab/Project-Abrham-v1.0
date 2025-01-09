@@ -4,6 +4,7 @@
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",
   "dependencies": {
+    "@shadcn/ui": "^0.0.4",
     "ajv": "^6.12.6",
     "axios": "^1.7.7",
     "chalk": "^2.4.2",

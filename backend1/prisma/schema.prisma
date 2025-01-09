@@ -16,6 +16,7 @@ datasource db {
 enum Role {
   company
   investor
+  admin
 }
 model User {
   id        Int      @id @default(autoincrement())
