@@ -1,141 +1,138 @@
 import React, { useState } from "react";
-import { Edit } from "lucide-react";
+import { Edit2, Check } from "react-feather";
 import styles from "./UserProfile.module.css";
-import { deleteUser, editUser } from "../../api/user";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
 
 const UserProfile = () => {
-  const [cookies] = useCookies();
-  console.log("All Cookies:", cookies);
-  const userId = cookies.userId;
-  console.log("User ID:", userId);
-
-  const [userData, setUserData] = useState({
-    userName: "",
-    email: "",
-    password: "",
+  const [formData, setFormData] = useState({
+    username: "JohnDoe",
+    email: "john@example.com",
+    password: "********",
   });
 
-  const [isEditing, setIsEditing] = useState({
-    userName: false,
+  const [editMode, setEditMode] = useState({
+    username: false,
     email: false,
     password: false,
   });
 
-  const handleChange = (e, field) => {
-    const { value } = e.target;
-    setUserData((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }));
-  };
-
   const handleEdit = (field) => {
-    setIsEditing((prevState) => ({
-      ...prevState,
-      [field]: true,
-    }));
+    setEditMode((prev) => ({ ...prev, [field]: true }));
   };
 
-  const handleSave = async (e) => {
+  const handleSave = (field) => {
+    setEditMode((prev) => ({ ...prev, [field]: false }));
+    // Here you would typically send an API request to update the user's information
+    console.log(`Saving ${field}:`, formData[field]);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleUpdate = (e) => {
     e.preventDefault();
-    const updatedUser = {};
-    for (const key in userData) {
-      if (userData[key]) updatedUser[key] = userData[key];
-    }
-    try {
-      const res = await editUser(userId, updatedUser);
-      console.log(res);
-      alert("User details updated successfully!");
-    } catch (err) {
-      alert("Failed to update user details. Please try again.");
-      console.log("Error updating user: ", err);
-    }
+    // Handle update logic here
+    console.log("Updating profile:", formData);
   };
 
-  const navigate = useNavigate();
-  const handleDelete = async () => {
-    try {
-      const res = await deleteUser(userId);
-      alert("User deleted successfully!");
-      navigate("/signin");
-    } catch (e) {
-      alert("Failed to Delete user details. Please try again.");
-      console.log("Error updating user: ", e);
-    }
+  const handleDelete = () => {
+    // Handle delete logic here
+    console.log("Deleting profile");
   };
 
   return (
-    <div className={styles.userProfileContainer}>
-      <form onSubmit={handleSave} className={styles.profileForm}>
+    <div className={styles.profileContainer}>
+      <form className={styles.profileForm} onSubmit={handleUpdate}>
         <div className={styles.formGroup}>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <div className={styles.inputGroup}>
             <input
               type="text"
-              name="userName"
-              value={userData.userName}
-              onChange={(e) => handleChange(e, "userName")}
-              className={styles.input}
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              readOnly={!editMode.username}
+              className={editMode.username ? styles.editing : ""}
             />
             <button
               type="button"
-              onClick={() => handleEdit("userName")}
               className={styles.editButton}
+              onClick={() =>
+                editMode.username
+                  ? handleSave("username")
+                  : handleEdit("username")
+              }
             >
-              <Edit size={16} />
+              {editMode.username ? <Check size={18} /> : <Edit2 size={18} />}
             </button>
           </div>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <div className={styles.inputGroup}>
             <input
               type="email"
+              id="email"
               name="email"
-              value={userData.email}
-              onChange={(e) => handleChange(e, "email")}
-              className={styles.input}
+              value={formData.email}
+              onChange={handleChange}
+              readOnly={!editMode.email}
+              className={editMode.email ? styles.editing : ""}
             />
             <button
               type="button"
-              onClick={() => handleEdit("email")}
               className={styles.editButton}
+              onClick={() =>
+                editMode.email ? handleSave("email") : handleEdit("email")
+              }
             >
-              <Edit size={16} />
+              {editMode.email ? <Check size={18} /> : <Edit2 size={18} />}
             </button>
           </div>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <div className={styles.inputGroup}>
             <input
               type="password"
+              id="password"
               name="password"
-              value={userData.password}
-              onChange={(e) => handleChange(e, "password")}
-              className={styles.input}
+              value={formData.password}
+              onChange={handleChange}
+              readOnly={!editMode.password}
+              className={editMode.password ? styles.editing : ""}
             />
             <button
               type="button"
-              onClick={() => handleEdit("password")}
               className={styles.editButton}
+              onClick={() =>
+                editMode.password
+                  ? handleSave("password")
+                  : handleEdit("password")
+              }
             >
-              <Edit size={16} />
+              {editMode.password ? <Check size={18} /> : <Edit2 size={18} />}
             </button>
           </div>
         </div>
 
-        <button type="submit" className={styles.saveButton}>
-          Update
-        </button>
+        <div className={styles.buttonGroup}>
+          <button type="submit" className={styles.updateButton}>
+            Update
+          </button>
+          <button
+            type="button"
+            className={styles.deleteButton}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        </div>
       </form>
-      <button className={styles.saveButton} onClick={handleDelete}>
-        Delete
-      </button>
     </div>
   );
 };

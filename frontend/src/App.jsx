@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import Testimonials from "./components/Testimonials/Testimonials";
@@ -20,7 +20,6 @@ import Profile from "./components/Dashboard/Profile";
 import UserProfile from "./components/UserProfile/UserProfile";
 import SignUp from "./components/SignUp/SignUp";
 import CreateCompany from "./components/CreateCompany/CreateCompany";
-import { useCookies } from "react-cookie";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import AdminPage from "./components/adminpage/AdminPage";
@@ -28,9 +27,21 @@ import AdminUsers from "./components/adminUsers/AdminUsers";
 import AdminCompanies from "./components/adminCompanies/AdminCompanies";
 
 function App() {
+  const location = useLocation();
+  const showHeader = ![
+    "/listings",
+    "/contact",
+    "/messages",
+    "/dashboard",
+    "/signup",
+    "/signin",
+    "/createCompany",
+    "/payment",
+  ].some((path) => location.pathname.startsWith(path));
+
   return (
     <div className="app-container">
-      <Header />
+      {showHeader && <Header />}
       <main className="main-content">
         <Routes>
           <Route

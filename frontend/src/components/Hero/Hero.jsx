@@ -10,7 +10,7 @@ function Hero() {
       style={{ backgroundImage: `url(${heroBackground})` }}
     >
       <div className={styles.content}>
-        <h1>Fueling Innovation: Where Startups Meet Investors</h1>
+        <h1>CHAIN BUSINESS GROUP: Where Startups Meet Investors</h1>
         <p>
           Empowering visionaries and investors to connect, collaborate, and
           build the next generation of innovative startups.

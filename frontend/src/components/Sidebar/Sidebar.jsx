@@ -12,6 +12,7 @@ import {
 import styles from "./Sidebar.module.css";
 import { getUser } from "../../api/user";
 import { useCookies } from "react-cookie";
+import logo from "../../assets/logoImage/logo.png";
 
 const Sidebar = () => {
   const [userRole, setUserRole] = useState(null);
@@ -23,49 +24,37 @@ const Sidebar = () => {
       const userId = cookie.userId;
       if (userId) {
         const res = await getUser(userId);
-        console.log(res);
         setUserRole(res.data.role);
       }
     };
     fetchUser();
-  }, []);
-
-  console.log("User Role: ", userRole);
+  }, [cookie.userId]);
 
   const handleLogout = () => {
     navigate("/signin");
-  };
-  const handleProfileClick = () => {
-    navigate("/dashboard/profile");
-  };
-
-  const handleMeClick = () => {
-    navigate("/dashboard/me");
   };
 
   return (
     <nav className={styles.sidebar}>
       <div className={styles.logo}>
-        <div className={styles.logoCircle}></div>
-        <span>Logo</span>
+        <img src={logo} alt="Logo" className={styles.logoImage} />
       </div>
 
       <ul className={styles.navList}>
         {userRole === "company" && (
-          <li>
+          <li className={styles.navItem}>
             <NavLink
               to="/dashboard/profile"
               className={({ isActive }) =>
                 isActive ? styles.activeLink : styles.link
               }
-              onClick={handleProfileClick}
             >
               <Home className={styles.icon} />
               <span>Profile</span>
             </NavLink>
           </li>
         )}
-        <li>
+        <li className={styles.navItem}>
           <NavLink
             to="/listings"
             className={({ isActive }) =>
@@ -76,7 +65,7 @@ const Sidebar = () => {
             <span>Listings</span>
           </NavLink>
         </li>
-        <li>
+        <li className={styles.navItem}>
           <NavLink
             to="/messages"
             className={({ isActive }) =>
@@ -87,7 +76,7 @@ const Sidebar = () => {
             <span>Messages</span>
           </NavLink>
         </li>
-        <li>
+        <li className={styles.navItem}>
           <NavLink
             to="/contact"
             className={({ isActive }) =>
@@ -98,32 +87,23 @@ const Sidebar = () => {
             <span>Contact Us</span>
           </NavLink>
         </li>
-        <li>
+        <li className={styles.navItem}>
           <NavLink
             to="/dashboard/me"
             className={({ isActive }) =>
               isActive ? styles.activeLink : styles.link
             }
-            onClick={handleMeClick}
           >
             <User className={styles.icon} />
             <span>Me</span>
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/signin"
-            className={({ isActive }) =>
-              isActive ? styles.activeLink : styles.link
-            }
-          >
-            <button className={styles.logoutButton} onClick={handleLogout}>
-              <LogOut className={styles.icon} />
-              <span>Log out</span>
-            </button>
-          </NavLink>
-        </li>
       </ul>
+
+      <button className={styles.logoutButton} onClick={handleLogout}>
+        <LogOut className={styles.icon} />
+        <span>Log out</span>
+      </button>
     </nav>
   );
 };

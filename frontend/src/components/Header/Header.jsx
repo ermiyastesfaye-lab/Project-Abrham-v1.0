@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Header.module.css";
+import logo from "../../assets/logoImage/logo.png";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,23 +26,32 @@ function Header() {
     navigate("/signin");
   };
 
+  useEffect(() => {
+    const closeMenu = () => setIsOpen(false);
+    window.addEventListener("resize", closeMenu);
+    return () => window.removeEventListener("resize", closeMenu);
+  }, []);
+
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>Logo</div>
+      <div className={styles.logo}>
+        <img src={logo} alt="Logo" className={styles.logoImage} />
+      </div>
       <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ""}`}>
-        <Link to="/listings" className={styles.navLink}>
+        <Link
+          to="/"
+          className={styles.navLink}
+          onClick={() => scrollToSection("about-us")}
+        >
           About Us
         </Link>
-        <a
-          href="#how-it-works"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("how-it-works");
-          }}
+        <Link
+          to="/"
           className={styles.navLink}
+          onClick={() => scrollToSection("how-it-works")}
         >
           How it works
-        </a>
+        </Link>
         <Link to="/contact" className={styles.navLink}>
           Contact Us
         </Link>
@@ -63,7 +73,9 @@ function Header() {
         }`}
         onClick={toggleMenu}
       >
-        {isOpen ? "✕" : "☰"}
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     </header>
   );

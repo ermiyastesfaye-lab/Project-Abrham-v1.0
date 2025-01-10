@@ -1,7 +1,7 @@
 .aboutUs {
   padding: 80px 0;
-  background-color: #000;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .content {
@@ -14,6 +14,7 @@
   font-size: 2.5rem;
   margin-bottom: 20px;
   text-align: center;
+  color: #bf8136;
 }
 
 .description {
@@ -34,6 +35,11 @@
   background-color: rgba(255, 255, 255, 0.1);
   padding: 30px;
   border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
 }
 
 .feature h3 {

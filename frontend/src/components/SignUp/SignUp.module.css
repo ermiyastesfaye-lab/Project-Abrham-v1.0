@@ -1,82 +1,87 @@
 .signupContainer {
   display: flex;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-}
-
-.signupLeft {
-  flex: 1;
-  padding: 40px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   background-color: #f5f5f5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
-.signupRight {
-  flex: 1;
-  padding: 40px;
+.signupForm {
   background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.signupIllustration {
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px;
-}
-
-.formRow {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.input {
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  max-width: 500px;
 }
 
-.passwordHint {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 15px;
-}
-
-.checkboxLabel {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
-
-.signupButton {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.divider {
+.formTitle {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
   text-align: center;
-  margin: 20px 0;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: #bf8136;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #bf8136;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #a66b2b;
+}
+
+.loginLink {
+  margin-top: 1rem;
+  text-align: center;
   color: #666;
 }
 
-.googleButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.loginLink a {
+  color: #bf8136;
+  text-decoration: none;
+}
+
+.loginLink a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .signupForm {
+    padding: 1.5rem;
+  }
 }

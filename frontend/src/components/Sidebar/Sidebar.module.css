@@ -1,36 +1,71 @@
 .sidebar {
-  width: 200px;
+  width: 250px;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #f8f9fa;
+  background-color: white;
+  color: black;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+}
+
+.logo {
+  margin-bottom: 40px;
+}
+
+.logoImage {
+  width: 80px;
+  height: auto;
 }
 
 .navList {
   list-style-type: none;
   padding: 0;
+  margin: 0;
+  flex-grow: 1;
 }
 
-.link {
-  display: block;
-  padding: 10px 15px;
-  color: #333;
+.navItem {
+  margin-bottom: 20px;
+}
+
+.link,
+.activeLink {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  color: black;
   text-decoration: none;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.link:hover {
-  background-color: #e9ecef;
+  transition: all 0.3s ease;
+  border-radius: 5px;
 }
 
 .activeLink {
-  background-color: #007bff;
+  background-color: #bf8136;
   color: white;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover {
+  color: #bf8136;
 }
 
 @media (max-width: 768px) {
@@ -39,7 +74,14 @@
     padding: 10px;
   }
 
-  .link span {
+  .logo,
+  .link span,
+  .activeLink span,
+  .logoutButton span {
     display: none;
+  }
+
+  .icon {
+    margin-right: 0;
   }
 }
