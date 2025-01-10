@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import styles from "../CreateCompany/SignUpFlow.module.css";
 import { Link } from "react-router-dom";
-import styles from "./SignUp.module.css";
+
+import { signup } from "../../api/auth";
+import { useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    userName: "",
     email: "",
     role: "",
     password: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
+  useEffect(() => {
+    const clearCookies = () => {
+      Object.keys(cookies).forEach((cookieName) => {
+        removeCookie(cookieName);
+      });
+    };
+    clearCookies();
+  }, []);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+    try {
+      const res = await signup(formData);
+      alert("Signup Successful!");
+      formData.role === "company"
+        ? navigate("/createCompany")
+        : navigate("/listings");
+    } catch (err) {
+      alert("Signup Failed! Please try again");
+      console.log("Error Signing up: ", err);
+    }
     console.log(formData);
   };
 
@@ -35,7 +50,12 @@ const SignUp = () => {
             id="username"
             name="username"
             value={formData.username}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                userName: e.target.value,
+              })
+            }
             required
           />
         </div>
@@ -46,32 +66,45 @@ const SignUp = () => {
             id="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                email: e.target.value,
+              })
+            }
             required
           />
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="role">Role</label>
           <select
-            id="role"
             name="role"
             value={formData.role}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                role: e.target.value,
+              })
+            }
             required
           >
-            <option value="">Select a role</option>
-            <option value="user">User</option>
-            <option value="company">Company</option>
+            <option value="">Role</option>
+            <option value="company">company</option>
+            <option value="investor">investor</option>
           </select>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            id="password"
-            name="password"
+            placeholder="Password"
             value={formData.password}
-            onChange={handleChange}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                password: e.target.value,
+              })
+            }
             required
           />
         </div>
