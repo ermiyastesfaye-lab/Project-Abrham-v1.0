@@ -33,13 +33,19 @@
   gap: 0.5rem;
 }
 
-.inputGroup input {
+.input {
   flex: 1;
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
   background-color: #f9f9f9;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.input.editing {
+  background-color: #fff;
+  border-color: #bf8136;
 }
 
 .editButton {
@@ -108,36 +114,4 @@
   .buttonGroup {
     grid-template-columns: 1fr;
   }
-}
-/* ... (previous styles remain unchanged) */
-
-.inputGroup input {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.inputGroup input.editing {
-  background-color: #fff;
-  border-color: #bf8136;
-}
-
-.editButton {
-  background: none;
-  border: none;
-  color: #bf8136;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.3s ease;
-}
-
-.editButton:hover {
-  color: #a66b2b;
 }

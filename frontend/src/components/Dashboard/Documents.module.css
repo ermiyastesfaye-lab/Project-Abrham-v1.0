@@ -21,7 +21,7 @@
 }
 
 .uploadBox:hover {
-  border-color: #6c5ce7;
+  border-color: black;
 }
 
 .uploadBox p {
@@ -30,7 +30,7 @@
 }
 
 .uploadBox button {
-  background-color: #6c5ce7;
+  background-color: #bf8136;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -40,11 +40,11 @@
 }
 
 .uploadBox button:hover {
-  background-color: #5b4cc7;
+  background-color: #bf8136;
 }
 
 .submitBtn {
-  background-color: #6c5ce7;
+  background-color: #bf8136;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -55,5 +55,5 @@
 }
 
 .submitBtn:hover {
-  background-color: #5b4cc7;
+  background-color: #bf8136;
 }

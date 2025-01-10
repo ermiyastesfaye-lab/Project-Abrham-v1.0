@@ -23,12 +23,12 @@
 
 .question input:focus {
   outline: none;
-  border-color: #6c5ce7;
+  border-color: black;
   box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
 }
 
 .submitBtn {
-  background-color: #6c5ce7;
+  background-color: #bf8136;
   color: white;
   border: none;
   padding: 10px 20px;

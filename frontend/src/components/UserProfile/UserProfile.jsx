@@ -64,7 +64,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className={styles.userProfileContainer}>
+    <div className={styles.profileContainer}>
       <form onSubmit={handleSave} className={styles.profileForm}>
         <div className={styles.formGroup}>
           <label>Username</label>
@@ -74,7 +74,9 @@ const UserProfile = () => {
               name="userName"
               value={userData.userName}
               onChange={(e) => handleChange(e, "userName")}
-              className={styles.input}
+              className={`${styles.input} ${
+                isEditing.userName ? styles.editing : ""
+              }`}
             />
             <button
               type="button"
@@ -94,7 +96,9 @@ const UserProfile = () => {
               name="email"
               value={userData.email}
               onChange={(e) => handleChange(e, "email")}
-              className={styles.input}
+              className={`${styles.input} ${
+                isEditing.email ? styles.editing : ""
+              }`}
             />
             <button
               type="button"
@@ -114,7 +118,9 @@ const UserProfile = () => {
               name="password"
               value={userData.password}
               onChange={(e) => handleChange(e, "password")}
-              className={styles.input}
+              className={`${styles.input} ${
+                isEditing.password ? styles.editing : ""
+              }`}
             />
             <button
               type="button"
@@ -126,13 +132,19 @@ const UserProfile = () => {
           </div>
         </div>
 
-        <button type="submit" className={styles.saveButton}>
-          Update
-        </button>
+        <div className={styles.buttonGroup}>
+          <button type="submit" className={styles.updateButton}>
+            Update
+          </button>
+          <button
+            type="button"
+            className={styles.deleteButton}
+            onClick={handleDelete}
+          >
+            Delete Account
+          </button>
+        </div>
       </form>
-      <button className={styles.saveButton} onClick={handleDelete}>
-        Delete
-      </button>
     </div>
   );
 };

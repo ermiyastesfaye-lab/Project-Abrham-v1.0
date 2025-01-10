@@ -3,13 +3,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 80px);
+  min-height: 100vh; /* Changed to 100vh to take full height */
+  width: 100vw; /* Added to ensure full width */
   text-align: center;
   background-size: cover;
   background-position: center;
   position: relative;
   color: white;
-  padding: 20px;
+  padding: 0; /* Removed padding */
+  margin: 0; /* Added to ensure no margins */
+  overflow: hidden; /* Added to prevent any potential horizontal scroll */
 }
 
 .hero::before {
@@ -26,20 +29,26 @@
 .content {
   position: relative;
   z-index: 2;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%; /* Changed from max-width */
+  padding: 0 20px; /* Added padding to content instead of container */
 }
 
 .hero h1 {
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  max-width: 1200px; /* Added max-width to maintain readability */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   line-height: 1.6;
+  max-width: 800px; /* Added max-width to maintain readability */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .buttonGroup {
@@ -105,15 +114,18 @@
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.5rem;
+    padding: 0 15px;
   }
 
   .hero p {
     font-size: 1rem;
+    padding: 0 15px;
   }
 
   .buttonGroup {
     flex-direction: column;
     gap: 15px;
+    padding: 0 15px;
   }
 
   .joinNow,
